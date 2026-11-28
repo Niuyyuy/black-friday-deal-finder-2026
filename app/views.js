@@ -1,8 +1,9 @@
-// HTML for the deal board's pages, built from the deal data. Every value is
-// escaped before it goes into the page, so a deal title can never break the
-// markup. Two pages: the board (a card per deal) and one deal's detail.
+// The deal board's pages, rendered as HTML strings from the deal data.
+// Every value is escaped before it reaches the page, so a deal title can
+// never break the markup. Two pages: the board (one card per deal) and a
+// single deal's detail page, reached on a hash route.
 
-import { percentOff, savedDollars } from "./filters.js";
+import { percentOff, savedDollars, boardStats } from "./filters.js";
 
 const escape = (s) =>
   String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -33,7 +34,7 @@ export function dealCard(deal) {
   <p class="card-meta"><span class="store">${escape(deal.store)}</span> · <span>${escape(deal.category)}</span></p>
   <p class="card-price"><strong>${usd(deal.price)}</strong> <s>${usd(deal.was)}</s> <span class="off">${percentOff(deal)}% off</span></p>
   <p class="card-save">You save ${usd(savedDollars(deal))} ${verdictPill(deal)}</p>
-  <p class="card-checked">Checked ${checkedDay(deal.checked)}</p>
+  <p class="card-checked">Checked ${checkedDay(deal.checked)} · ${escape(deal.source)}</p>
   <p class="card-link"><a href="${escape(deal.url)}" rel="noopener" target="_blank">Find it at ${escape(deal.store)} →</a></p>
 </article>`;
 }
@@ -42,7 +43,9 @@ export function board(deals, total) {
   if (deals.length === 0) {
     return `<p class="empty">No deal matches those filters. Clear the search or pick a wider filter.</p>`;
   }
-  return `<p class="count">Showing ${deals.length} of ${total} deals</p>
+  const stats = boardStats(deals);
+  return `<p class="stats"><strong>${stats.count} deals</strong> · ${stats.newLows} new lows · up to <strong>${stats.biggestPct}% off</strong> · ${usd(stats.totalSaved)} saved across the board</p>
+<p class="count">Showing ${deals.length} of ${total} deals</p>
 <section class="grid">${deals.map(dealCard).join("")}</section>`;
 }
 

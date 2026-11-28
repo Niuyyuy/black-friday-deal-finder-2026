@@ -1,12 +1,12 @@
 // Deal Beacon's hand-in program (Node 22, standard library only). The site
-// itself is plain static files under app/ — index.html, its stylesheets and
-// modules, and the deals in data.js — and the screenshots beside them. This
-// program copies both folders into the output directory the grader reads
-// and writes dossier.json there, using the vendored make.fun library, which
-// is the summary the judge reads: the screenshots, the first load's files
-// and bytes, and the site's source. vendor/makefun-frontend.ts stays as the
-// kit shipped it, because the scorer rebuilds the dossier with its own copy
-// and the two must match byte for byte.
+// is plain static files under app/ — index.html, its stylesheet and
+// modules, and the deals in data.js — with the screenshots beside them.
+// This program copies both folders into the output directory the grader
+// reads and writes dossier.json there with the vendored make.fun library:
+// the summary the judge reads, holding the screenshots, the first load's
+// files and bytes, and the site's source. vendor/makefun-frontend.ts stays
+// exactly as the kit shipped it, because the scorer rebuilds the dossier
+// with its own copy and the two must match byte for byte.
 //
 // Run it outside the grader with an output directory of your own:
 //   MAKEFUN_OUTPUT_DIR=out node main.ts
@@ -26,10 +26,11 @@ if (existsSync(join(here, "screenshots"))) {
   cpSync(join(here, "screenshots"), join(out, "screenshots"), { recursive: true });
 }
 
-// The scorer's own caps, so a hand-in that would fail the gate fails here
-// first: at most 4 screenshots, none over 256 KiB; app/ at most 993 files
-// and directories and 16 MiB in all; the dossier text capped at 160 KiB.
-// A one-line summary on stdout says the hand-in is ready to be checked.
+// The scorer's own caps, checked here first so a hand-in that would fail
+// the gate fails here instead: at most 4 screenshots, none over 256 KiB;
+// app/ at most 993 files and directories and 16 MiB in all; the dossier
+// text capped at 160 KiB. A one-line summary on stdout says the hand-in
+// is ready to be checked.
 writeFileSync(
   join(out, "dossier.json"),
   buildDossier(out, {
