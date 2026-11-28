@@ -1,6 +1,6 @@
 /* Deal Beacon: warm paper background, deep navy ink, amber for the deals.
-   One column on a phone, a card grid on a desktop. Nothing here loads
-   over the network: no web fonts, no remote images. */
+   One column on a phone, a card grid on a desktop. The page loads nothing
+   over the network: no web fonts, no remote images, no trackers. */
 
 :root {
   --paper: #faf6ef;
@@ -85,6 +85,29 @@ main { max-width: 1080px; margin: 0 auto; padding: 16px; }
 .controls .search input { width: 100%; }
 
 .count { color: var(--muted); margin: 4px 2px 12px; }
+
+.stats {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+.stats strong { color: var(--amber); }
+
+.clear-btn {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--amber-soft);
+  border: 1px solid var(--amber);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.clear-btn:hover { background: #fbe7b0; }
 
 .grid {
   display: grid;
